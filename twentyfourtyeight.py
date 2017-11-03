@@ -28,11 +28,14 @@ class TwoZeroFourEight():
         # Choose an empty_cell randomly
         # Generate a number from starter_tile list
         keys          = empty_cells.keys()
-        # Check for game over?
-        index         = nr.randint(len(keys))
-        location      = keys[index]
-        starter_index = nr.randint(len(starter_tiles))
-        value         = starter_tiles[starter_index]
+        if len(keys) > 0:
+            index         = nr.randint(len(keys))
+            location      = keys[index]
+            starter_index = nr.randint(len(starter_tiles))
+            value         = starter_tiles[starter_index]
+        else:
+            # Check for game over?
+            pass
         return location, value
 
     
@@ -281,3 +284,16 @@ class TwoZeroFourEight():
                 moves_possible = True
 
         return moves_possible    
+
+    def is_game_over(self):
+        if len(empty_cells.keys()) > 0:
+            return False
+
+        # This can also be done one at a time instead
+        # of checking all possibilities
+        moves_possible = []
+        moves_possible.append(self.slide_right(dryrun = True))
+        moves_possible.append(self.slide_down(dryrun = True))
+        moves_possible.append(self.slide_left(dryrun = True))
+        moves_possible.append(self.slide_up(dryrun = True))
+        return not any(moves_possible)
