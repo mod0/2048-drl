@@ -2,40 +2,52 @@ import numpy as np
 import numpr.random as nr
 
 class TwoZeroFourEight():
-
-    # Store all empty tuples where next tile can be
-    # placed
-    empty_cells = dict()
-
-    # Starter tiles
-    starter_tiles = [2, 4]
     
     def __init__(self, n):
+        # set the size of the grid
         self.n    = n
+        # create a matrix to store the values
         self.game = np.zeros((n,n), dtype=np.int32)
+        # Store all empty tuples where next tile can be
+        # placed
+        self.empty_cells = dict()
+        # Starter tiles
+        self.starter_tiles = [2, 4]
+        # Add all the empty tiles to the dictionary
         for i in xrange(n):
             for j in xrange(n):
-                empty_cells[(i, j)] = 0
-        location, value = generate_random_tile()
+                self.empty_cells[(i, j)] = 0
+        # Add two tiles to start with
+        location, value = self.generate_random_tile()
         self.game[location] = value
-        empty_cells.pop(location, None)
-        location, value = generate_random_tile()
+        self.empty_cells.pop(location, None)
+        
+        location, value = self.generate_random_tile()
         self.game[location] = value
-        empty_cells.pop(location, None)
+        self.empty_cells.pop(location, None)
         
 
-    def generate_random_tile():
+    def generate_random_tile(self):
         # Choose an empty_cell randomly
         # Generate a number from starter_tile list
-        keys          = empty_cells.keys()
+        keys          = self.empty_cells.keys()
         if len(keys) > 0:
             index         = nr.randint(len(keys))
             location      = keys[index]
-            starter_index = nr.randint(len(starter_tiles))
-            value         = starter_tiles[starter_index]
+            starter_index = nr.randint(len(self.starter_tiles))
+            value         = self.starter_tiles[starter_index]
         else:
-            # Check for game over?
-            pass
+            if self.is_game_over():
+                # No moves are possible and the
+                # grid is locked
+                location = None
+                value    = None
+            else:
+                # Some moves are possible,
+                # which will open up new tiles
+                location = None
+                value    = 0
+            
         return location, value
 
     
@@ -73,7 +85,7 @@ class TwoZeroFourEight():
         self.game[r, c + 1] *= 2
         self.game[r, c]      = 0
         # Push the key into empty_cells dictionary
-        empty_cells[(r,c)]   = 0
+        self.empty_cells[(r,c)]   = 0
 
         
     def move_tile_right(self, r, c, dryrun = False):
@@ -91,10 +103,10 @@ class TwoZeroFourEight():
         if last_empty_cell is not None:
             if not dryrun:
                 self.game[last_empty_cell] = self.game[r, c]
-                empty_cells.pop(last_empty_cell, None)
+                self.empty_cells.pop(last_empty_cell, None)
                 self.game[r, c]     = 0
-                # Push the key into empty_cells dict
-                empty_cells[(r, c)] = 0
+                # Push the key into self.empty_cells dict
+                self.empty_cells[(r, c)] = 0
             else:
                 moves_possible = True
 
@@ -135,7 +147,7 @@ class TwoZeroFourEight():
         self.game[r, c - 1] *= 2
         self.game[r, c]      = 0
         # Push the key into empty_cells dictionary
-        empty_cells[(r,c)]   = 0
+        self.empty_cells[(r,c)]   = 0
 
         
     def move_tile_left(self, r, c, dryrun = False):
@@ -153,10 +165,10 @@ class TwoZeroFourEight():
         if last_empty_cell is not None:
             if not dryrun:
                 self.game[last_empty_cell] = self.game[r, c]
-                empty_cells.pop(last_empty_cell, None)
+                self.empty_cells.pop(last_empty_cell, None)
                 self.game[r, c]     = 0
                 # Push the key into empty_cells dict
-                empty_cells[(r, c)] = 0
+                self.empty_cells[(r, c)] = 0
             else:
                 moves_possible = True
 
@@ -196,7 +208,7 @@ class TwoZeroFourEight():
         self.game[r + 1, c] *= 2
         self.game[r, c]      = 0
         # Push the key into empty_cells dictionary
-        empty_cells[(r,c)]   = 0
+        self.empty_cells[(r,c)]   = 0
 
         
     def move_tile_down(self, r, c, dryrun = False):
@@ -214,10 +226,10 @@ class TwoZeroFourEight():
         if last_empty_cell is not None:
             if not dryrun:
                 self.game[last_empty_cell] = self.game[r, c]
-                empty_cells.pop(last_empty_cell, None)
+                self.empty_cells.pop(last_empty_cell, None)
                 self.game[r, c]     = 0
                 # Push the key into empty_cells dict
-                empty_cells[(r, c)] = 0
+                self.empty_cells[(r, c)] = 0
             else:
                 moves_possible = True
 
@@ -258,7 +270,7 @@ class TwoZeroFourEight():
         self.game[r - 1, c] *= 2
         self.game[r, c]      = 0
         # Push the key into empty_cells dictionary
-        empty_cells[(r,c)]   = 0
+        self.empty_cells[(r,c)]   = 0
 
         
     def move_tile_up(self, r, c, dryrun = False):
@@ -276,17 +288,17 @@ class TwoZeroFourEight():
         if last_empty_cell is not None:
             if not dryrun:
                 self.game[last_empty_cell] = self.game[r, c]
-                empty_cells.pop(last_empty_cell, None)
+                self.empty_cells.pop(last_empty_cell, None)
                 self.game[r, c]     = 0
                 # Push the key into empty_cells dict
-                empty_cells[(r, c)] = 0
+                self.empty_cells[(r, c)] = 0
             else:
                 moves_possible = True
 
         return moves_possible    
 
     def is_game_over(self):
-        if len(empty_cells.keys()) > 0:
+        if len(self.empty_cells.keys()) > 0:
             return False
 
         # This can also be done one at a time instead
