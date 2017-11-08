@@ -7,7 +7,7 @@ if __name__ == "__main__":
     # Parse the grid dimension from the command line
     # And use that to create a game window  to
     # house that size of the grid. Here we assume 4
-    grid_size = 5
+    grid_size = 4
 
     # Create a game of that dimension
     game = tzfe.TwoZeroFourEight(grid_size)
@@ -49,10 +49,13 @@ if __name__ == "__main__":
                     game_over, new_tile = game.insert_new_tile()
 
         # Some kinda gray
-        kinda_gray = (200,200,200)
+        kinda_gray = (150,150,150)
 
         # Kinda orange
         kinda_orange = (252,179,83)
+
+        # Blacky black
+        blacky_black = (0, 0, 0)
         
         # Fill the screen
         screen.fill(kinda_gray)
@@ -61,16 +64,25 @@ if __name__ == "__main__":
         score_string = "Score: {0:0>-06d}".format(game.get_score())
         
         # Write out score
-        score               = font.render(score_string, True, (0, 0, 0))
-        score_rect          = score.get_rect()
+        score_surface       = font.render(score_string, True, blacky_black)
+        score_rect          = score_surface.get_rect()
         score_rect.topright = screen_rect.topright
-        screen.blit(score, score_rect)
+        screen.blit(score_surface, score_rect)
 
         
         # Now draw the game onto the screen
         for i in xrange(grid_size):
             for j in xrange(grid_size):
-                pass
+                tile_top   = i * tile_size + header_height
+                tile_left  = j * tile_size
+                tile_rect  = pygame.draw.rect(screen, kinda_orange, (tile_left, tile_top, tile_size, tile_size), 1)
+                tile_value = game.get_tile_value(i, j)
+                if tile_value > 0:
+                    tile_value_string              = "{0:^4d}".format(tile_value)
+                    tile_value_surface             = font.render(tile_value_string, True, blacky_black)
+                    tile_value_surface_rect        = tile_value_surface.get_rect()
+                    tile_value_surface_rect.center = tile_rect.center
+                    screen.blit(tile_value_surface, tile_value_surface_rect)
             
         # Update the display
         pygame.display.update()

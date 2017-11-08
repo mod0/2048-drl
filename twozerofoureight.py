@@ -66,7 +66,10 @@ class TwoZeroFourEight():
 
     def get_score(self):
         return self.score
-        
+
+    def get_tile_value(self, r, c):
+        return self.game[r, c]
+    
     def slide_right(self, dryrun = False):
         moves_possible = False
         
