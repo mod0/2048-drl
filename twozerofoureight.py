@@ -5,7 +5,9 @@ class TwoZeroFourEight():
     
     def __init__(self, n):
         # set the size of the grid
-        self.n    = n
+        self.n     = n
+        # score variable
+        self.score = 0
         # create a matrix to store the values
         self.game = np.zeros((n,n), dtype=np.int32)
         # Store all empty tuples where next tile can be
@@ -18,14 +20,9 @@ class TwoZeroFourEight():
             for j in xrange(n):
                 self.empty_cells[(i, j)] = 0
         # Add two tiles to start with
-        location, value = self.generate_random_tile()
-        self.game[location] = value
-        self.empty_cells.pop(location, None)
-        
-        location, value = self.generate_random_tile()
-        self.game[location] = value
-        self.empty_cells.pop(location, None)
-        
+        self.insert_new_tile()
+        self.insert_new_tile()
+                
 
     def generate_random_tile(self):
         # Choose an empty_cell randomly
@@ -50,7 +47,26 @@ class TwoZeroFourEight():
             
         return location, value
 
-    
+    def insert_new_tile(self):
+        location, value = self.generate_random_tile()
+
+        # Check for end of game
+        if location is None:
+            if value is None:
+                # Game over, No tile added
+                return True, False
+            elif value == 0:
+                # Game not over, No tile added
+                return False, False
+        else:
+            self.game[location] = value
+            self.empty_cells.pop(location, None)
+            # Game not over, tile added successfully
+            return False, True
+
+    def get_score(self):
+        return self.score
+        
     def slide_right(self, dryrun = False):
         moves_possible = False
         
@@ -83,6 +99,7 @@ class TwoZeroFourEight():
                         
     def merge_right(self, r, c):
         self.game[r, c + 1] *= 2
+        self.score          += self.game[r, c + 1]
         self.game[r, c]      = 0
         # Push the key into empty_cells dictionary
         self.empty_cells[(r,c)]   = 0
@@ -145,6 +162,7 @@ class TwoZeroFourEight():
                         
     def merge_left(self, r, c):
         self.game[r, c - 1] *= 2
+        self.score          += self.game[r, c - 1]
         self.game[r, c]      = 0
         # Push the key into empty_cells dictionary
         self.empty_cells[(r,c)]   = 0
@@ -206,6 +224,7 @@ class TwoZeroFourEight():
                         
     def merge_down(self, r, c):
         self.game[r + 1, c] *= 2
+        self.score          += self.game[r + 1, c]
         self.game[r, c]      = 0
         # Push the key into empty_cells dictionary
         self.empty_cells[(r,c)]   = 0
@@ -268,6 +287,7 @@ class TwoZeroFourEight():
                         
     def merge_up(self, r, c):
         self.game[r - 1, c] *= 2
+        self.score          += self.game[r - 1, c]
         self.game[r, c]      = 0
         # Push the key into empty_cells dictionary
         self.empty_cells[(r,c)]   = 0
@@ -309,3 +329,5 @@ class TwoZeroFourEight():
         moves_possible.append(self.slide_left(dryrun = True))
         moves_possible.append(self.slide_up(dryrun = True))
         return not any(moves_possible)
+
+
