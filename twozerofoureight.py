@@ -1,5 +1,5 @@
 import numpy as np
-import numpr.random as nr
+import numpy.random as nr
 
 class TwoZeroFourEight():
     
@@ -73,7 +73,7 @@ class TwoZeroFourEight():
         # Start at the penultimate column from right and
         # check what can be combined.
         for c in reversed(xrange(0, self.n - 1)):
-            for r in xrange(0, n):
+            for r in xrange(0, self.n):
                 # If the current cell is not empty
                 if self.game[r, c] > 0:
                     # Can we combine with the one to the right?
@@ -136,7 +136,7 @@ class TwoZeroFourEight():
         # Start at the penultimate column from left and
         # check what can be combined.
         for c in xrange(1, self.n):
-            for r in xrange(0, n):
+            for r in xrange(0, self.n):
                 # If the current cell is not empty
                 if self.game[r, c] > 0:
                     # Can we combine with the one to the left?
@@ -198,7 +198,7 @@ class TwoZeroFourEight():
         # Start at the penultimate column from bottom and
         # check what can be combined.
         for r in reversed(xrange(0, self.n - 1)):
-            for c in xrange(0, n):
+            for c in xrange(0, self.n):
                 # If the current cell is not empty
                 if self.game[r, c] > 0:
                     # Can we combine with the one below?
@@ -261,7 +261,7 @@ class TwoZeroFourEight():
         # Start at the second column from top and
         # check what can be combined.
         for r in xrange(1, self.n):
-            for c in xrange(0, n):
+            for c in xrange(0, self.n):
                 # If the current cell is not empty
                 if self.game[r, c] > 0:
                     # Can we combine with the one above?
@@ -329,5 +329,3 @@ class TwoZeroFourEight():
         moves_possible.append(self.slide_left(dryrun = True))
         moves_possible.append(self.slide_up(dryrun = True))
         return not any(moves_possible)
-
-
