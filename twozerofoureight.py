@@ -72,7 +72,14 @@ class TwoZeroFourEight():
     
     def slide_right(self, dryrun = False):
         moves_possible = False
-        
+
+        # First slide everything to the right as much as
+        # possible
+        for c in reversed(xrange(0, self.n - 1)):
+            for r in xrange(0, self.n):
+                self.move_tile_right(r, c, dryrun)
+
+        # Then start merging and sliding again
         # Start at the penultimate column from right and
         # check what can be combined.
         for c in reversed(xrange(0, self.n - 1)):
@@ -135,7 +142,14 @@ class TwoZeroFourEight():
     
     def slide_left(self, dryrun = False):
         moves_possible = False
-        
+
+        # First slide everything to the left as much as
+        # possible
+        for c in xrange(1, self.n):
+            for r in xrange(0, self.n):
+                self.move_tile_left(r, c, dryrun)
+
+        # Then start merging and sliding again
         # Start at the penultimate column from left and
         # check what can be combined.
         for c in xrange(1, self.n):
@@ -197,7 +211,14 @@ class TwoZeroFourEight():
 
     def slide_down(self, dryrun = False):
         moves_possible = False
-        
+
+        # First slide everything downwards as much as
+        # possible
+        for r in reversed(xrange(0, self.n - 1)):
+            for c in xrange(0, self.n):
+                self.move_tile_down(r, c, dryrun)
+
+        # Then start merging and sliding again
         # Start at the penultimate column from bottom and
         # check what can be combined.
         for r in reversed(xrange(0, self.n - 1)):
@@ -260,7 +281,14 @@ class TwoZeroFourEight():
 
     def slide_up(self, dryrun = False):
         moves_possible = False
-        
+
+        # First slide everything upwards as much as
+        # possible
+        for r in xrange(1, self.n):
+            for c in xrange(0, self.n):
+                self.move_tile_up(r, c, dryrun)
+
+        # Then start merging and sliding again
         # Start at the second column from top and
         # check what can be combined.
         for r in xrange(1, self.n):

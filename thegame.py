@@ -26,9 +26,11 @@ if __name__ == "__main__":
     screen_rect   = screen.get_rect()
 
     # Create a font object
-    font  = pygame.font.Font(None, 48)
+    font  = pygame.font.Font(None, 36)
     
     while True:
+        game_over = False
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit(0)
@@ -56,6 +58,9 @@ if __name__ == "__main__":
 
         # Blacky black
         blacky_black = (0, 0, 0)
+
+        # Booooo Red
+        booooo_red   = (200, 25, 25)
         
         # Fill the screen
         screen.fill(kinda_gray)
@@ -69,6 +74,13 @@ if __name__ == "__main__":
         score_rect.topright = screen_rect.topright
         screen.blit(score_surface, score_rect)
 
+        # check game over and paint it to top left in RED
+        if game_over:
+            game_over_surface      = font.render("Game Over", True, booooo_red)
+            game_over_rect         = game_over_surface.get_rect()
+            game_over_rect.topleft = screen_rect.topleft
+            screen.blit(game_over_surface, game_over_rect)
+            print "Game Over"
         
         # Now draw the game onto the screen
         for i in xrange(grid_size):
