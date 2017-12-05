@@ -101,8 +101,7 @@ class TwoZeroFourEight():
                         # Move the current cell as far right as possible
                         can_move_tile  = self.move_tile_right(r, c, dryrun)
                         moves_possible = moves_possible or can_move_tile
-                        if dryrun:
-                            return moves_possible
+
 
         return moves_possible
 
@@ -171,8 +170,6 @@ class TwoZeroFourEight():
                         # Move the current cell as far left as possible
                         can_move_tile  = self.move_tile_left(r, c, dryrun)
                         moves_possible = moves_possible or can_move_tile
-                        if dryrun:
-                            return moves_possible
 
         return moves_possible
 
@@ -240,8 +237,6 @@ class TwoZeroFourEight():
                         # Move the current cell as far down as possible
                         can_move_tile  = self.move_tile_down(r, c, dryrun)
                         moves_possible = moves_possible or can_move_tile
-                        if dryrun:
-                            return moves_possible
 
         return moves_possible
 
@@ -310,8 +305,6 @@ class TwoZeroFourEight():
                         # Move the current cell as far up as possible
                         can_move_tile  = self.move_tile_up(r, c, dryrun)
                         moves_possible = moves_possible or can_move_tile
-                        if dryrun:
-                            return moves_possible
 
         return moves_possible
 
