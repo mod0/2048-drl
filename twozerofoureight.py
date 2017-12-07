@@ -16,8 +16,8 @@ class TwoZeroFourEight():
         # Starter tiles
         self.starter_tiles = [2, 4]
         # Add all the empty tiles to the dictionary
-        for i in xrange(n):
-            for j in xrange(n):
+        for i in range(n):
+            for j in range(n):
                 self.empty_cells[(i, j)] = 0
         # Add two tiles to start with
         self.insert_new_tile()
@@ -30,7 +30,7 @@ class TwoZeroFourEight():
         keys          = self.empty_cells.keys()
         if len(keys) > 0:
             index         = nr.randint(len(keys))
-            location      = keys[index]
+            location      = list(keys)[index]
             starter_index = nr.randint(len(self.starter_tiles))
             value         = self.starter_tiles[starter_index]
         else:
@@ -70,20 +70,23 @@ class TwoZeroFourEight():
     def get_tile_value(self, r, c):
         return self.game[r, c]
     
+    def get_state(self):
+        return self.game
+    
     def slide_right(self, dryrun = False):
         moves_possible = False
 
         # First slide everything to the right as much as
         # possible
-        for c in reversed(xrange(0, self.n - 1)):
-            for r in xrange(0, self.n):
+        for c in reversed(range(0, self.n - 1)):
+            for r in range(0, self.n):
                 self.move_tile_right(r, c, dryrun)
 
         # Then start merging and sliding again
         # Start at the penultimate column from right and
         # check what can be combined.
-        for c in reversed(xrange(0, self.n - 1)):
-            for r in xrange(0, self.n):
+        for c in reversed(range(0, self.n - 1)):
+            for r in range(0, self.n):
                 # If the current cell is not empty
                 if self.game[r, c] > 0:
                     # Can we combine with the one to the right?
@@ -119,7 +122,7 @@ class TwoZeroFourEight():
 
         # Find location of last empty cell in this direction
         last_empty_cell = None
-        for cc in xrange(c + 1, self.n):
+        for cc in range(c + 1, self.n):
             # Check if this is an empty cell
             # and keep track of last empty cell 
             if self.game[r, cc] == 0:
@@ -144,15 +147,15 @@ class TwoZeroFourEight():
 
         # First slide everything to the left as much as
         # possible
-        for c in xrange(1, self.n):
-            for r in xrange(0, self.n):
+        for c in range(1, self.n):
+            for r in range(0, self.n):
                 self.move_tile_left(r, c, dryrun)
 
         # Then start merging and sliding again
         # Start at the penultimate column from left and
         # check what can be combined.
-        for c in xrange(1, self.n):
-            for r in xrange(0, self.n):
+        for c in range(1, self.n):
+            for r in range(0, self.n):
                 # If the current cell is not empty
                 if self.game[r, c] > 0:
                     # Can we combine with the one to the left?
@@ -187,7 +190,7 @@ class TwoZeroFourEight():
 
         # Find location of last empty cell in this direction
         last_empty_cell = None
-        for cc in reversed(xrange(0, c)):
+        for cc in reversed(range(0, c)):
             # Check if this is an empty cell
             # and keep track of last empty cell 
             if self.game[r, cc] == 0:
@@ -211,15 +214,15 @@ class TwoZeroFourEight():
 
         # First slide everything downwards as much as
         # possible
-        for r in reversed(xrange(0, self.n - 1)):
-            for c in xrange(0, self.n):
+        for r in reversed(range(0, self.n - 1)):
+            for c in range(0, self.n):
                 self.move_tile_down(r, c, dryrun)
 
         # Then start merging and sliding again
         # Start at the penultimate column from bottom and
         # check what can be combined.
-        for r in reversed(xrange(0, self.n - 1)):
-            for c in xrange(0, self.n):
+        for r in reversed(range(0, self.n - 1)):
+            for c in range(0, self.n):
                 # If the current cell is not empty
                 if self.game[r, c] > 0:
                     # Can we combine with the one below?
@@ -254,7 +257,7 @@ class TwoZeroFourEight():
 
         # Find location of last empty cell in this direction
         last_empty_cell = None
-        for rr in xrange(r + 1, self.n):
+        for rr in range(r + 1, self.n):
             # Check if this is an empty cell
             # and keep track of last empty cell 
             if self.game[rr, c] == 0:
@@ -279,15 +282,15 @@ class TwoZeroFourEight():
 
         # First slide everything upwards as much as
         # possible
-        for r in xrange(1, self.n):
-            for c in xrange(0, self.n):
+        for r in range(1, self.n):
+            for c in range(0, self.n):
                 self.move_tile_up(r, c, dryrun)
 
         # Then start merging and sliding again
         # Start at the second column from top and
         # check what can be combined.
-        for r in xrange(1, self.n):
-            for c in xrange(0, self.n):
+        for r in range(1, self.n):
+            for c in range(0, self.n):
                 # If the current cell is not empty
                 if self.game[r, c] > 0:
                     # Can we combine with the one above?
@@ -322,7 +325,7 @@ class TwoZeroFourEight():
 
         # Find location of last empty cell in this direction
         last_empty_cell = None
-        for rr in reversed(xrange(0, r)):
+        for rr in reversed(range(0, r)):
             # Check if this is an empty cell
             # and keep track of last empty cell 
             if self.game[rr, c] == 0:

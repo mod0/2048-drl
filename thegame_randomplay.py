@@ -101,8 +101,8 @@ if __name__ == "__main__":
         screen.blit(score_surface, score_rect)
         
         # Now draw the game onto the screen
-        for i in xrange(grid_size):
-            for j in xrange(grid_size):
+        for i in range(grid_size):
+            for j in range(grid_size):
                 tile_top   = i * tile_size + header_height
                 tile_left  = j * tile_size
                 tile_value = game.get_tile_value(i, j)
@@ -122,7 +122,7 @@ if __name__ == "__main__":
             game_over_rect         = game_over_surface.get_rect()
             game_over_rect.topleft = screen_rect.topleft
             screen.blit(game_over_surface, game_over_rect)
-            print "Game Over"
+            print("Game Over")
             sys.exit(0)
 
         # 200 ms delay
