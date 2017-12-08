@@ -14,7 +14,7 @@ class TwoZeroFourEight():
         # placed
         self.empty_cells = dict()
         # Starter tiles
-        self.starter_tiles = [2, 4]
+        self.starter_tiles = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
         # Add all the empty tiles to the dictionary
         for i in range(n):
             for j in range(n):
@@ -348,6 +348,11 @@ class TwoZeroFourEight():
         if len(self.empty_cells.keys()) > 0:
             return False
 
+        for i in range(self.n):
+            for j in range(self.n):
+                if self.game[i, j] == 2048:
+                    return True
+        
         # This can also be done one at a time instead
         # of checking all possibilities
         moves_possible = []

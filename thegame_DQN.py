@@ -80,21 +80,21 @@ if __name__ == "__main__":
     # house that size of the grid. Here we assume 4
     grid_size = 4
 
-    # Initialize pygame
-    pygame.init()
+    # # Initialize pygame
+    # pygame.init()
 
-    # If we paint a rectangle cell of size 64 pixels
-    # Also include a header height to display score
-    header_height = 48 
-    tile_size     = 96
-    width, height = tile_size * grid_size, tile_size * grid_size + header_height
+    # # If we paint a rectangle cell of size 64 pixels
+    # # Also include a header height to display score
+    # header_height = 48 
+    # tile_size     = 96
+    # width, height = tile_size * grid_size, tile_size * grid_size + header_height
 
-    # Create a screen
-    screen        = pygame.display.set_mode((width, height))
-    screen_rect   = screen.get_rect()
+    # # Create a screen
+    # screen        = pygame.display.set_mode((width, height))
+    # screen_rect   = screen.get_rect()
     
-    # Create a font object
-    font  = pygame.font.Font(None, 24)
+    # # Create a font object
+    # font  = pygame.font.Font(None, 24)
 
     for e in range(num_episodes):
         # Create a game of that dimension
@@ -146,9 +146,9 @@ if __name__ == "__main__":
         while not(game_over):
            
             
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit(0)
+            # for event in pygame.event.get():
+            #     if event.type == pygame.QUIT:
+            #         sys.exit(0)
     
             # Generate a random move
             ##WZ
@@ -183,33 +183,33 @@ if __name__ == "__main__":
             last_score = score
             ##WZ
             
-            # Fill the screen
-            screen.fill(kinda_gray)
+            # # Fill the screen
+            # screen.fill(kinda_gray)
             
-            # Score string
-            score_string = "Score: {0:0>-06d}".format(game.get_score())
+            # # Score string
+            # score_string = "Score: {0:0>-06d}".format(game.get_score())
             
-            # Write out score
-            score_surface       = font.render(score_string, True, blacky_black)
-            score_rect          = score_surface.get_rect()
-            score_rect.topright = screen_rect.topright
-            screen.blit(score_surface, score_rect)
+            # # Write out score
+            # score_surface       = font.render(score_string, True, blacky_black)
+            # score_rect          = score_surface.get_rect()
+            # score_rect.topright = screen_rect.topright
+            # screen.blit(score_surface, score_rect)
             
-            # Now draw the game onto the screen
-            for i in range(grid_size):
-                for j in range(grid_size):
-                    tile_top   = i * tile_size + header_height
-                    tile_left  = j * tile_size
-                    tile_value = game.get_tile_value(i, j)
-                    tile_rect  = pygame.draw.rect(screen, blacky_black, (tile_left, tile_top, tile_size, tile_size), 1)
-                    screen.fill(kinda_orange[tile_value], tile_rect)
-                    if tile_value > 0:
-                        # draw a square tile                    
-                        tile_value_string              = "{0:^4d}".format(tile_value)
-                        tile_value_surface             = font.render(tile_value_string, True, chocolate_brown)
-                        tile_value_surface_rect        = tile_value_surface.get_rect()
-                        tile_value_surface_rect.center = tile_rect.center
-                        screen.blit(tile_value_surface, tile_value_surface_rect)
+            # # Now draw the game onto the screen
+            # for i in range(grid_size):
+            #     for j in range(grid_size):
+            #         tile_top   = i * tile_size + header_height
+            #         tile_left  = j * tile_size
+            #         tile_value = game.get_tile_value(i, j)
+            #         tile_rect  = pygame.draw.rect(screen, blacky_black, (tile_left, tile_top, tile_size, tile_size), 1)
+            #         screen.fill(kinda_orange[tile_value], tile_rect)
+            #         if tile_value > 0:
+            #             # draw a square tile                    
+            #             tile_value_string              = "{0:^4d}".format(tile_value)
+            #             tile_value_surface             = font.render(tile_value_string, True, chocolate_brown)
+            #             tile_value_surface_rect        = tile_value_surface.get_rect()
+            #             tile_value_surface_rect.center = tile_rect.center
+            #             screen.blit(tile_value_surface, tile_value_surface_rect)
     
             # check game over and paint it to top left in RED
             if game_over:
@@ -224,7 +224,7 @@ if __name__ == "__main__":
             time.sleep(artificial_delay)
             
             # Update the display
-            pygame.display.update()
+            # pygame.display.update()
             
 
 #evaluation:
@@ -237,5 +237,5 @@ plt.ylabel('Score')
 plt.grid(True)
 plt.title('RandomAgent')
 
-pygame.quit()
+# pygame.quit()
 sys.exit(0)

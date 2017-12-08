@@ -40,7 +40,7 @@ C1['stride'] = 1
 QA_CNN.append(C1)
 C2 = dict()
 C2['type'] = 'conv2d'
-C2['size'] = 4048
+C2['size'] = 4096
 C2['window'] = 2
 C2['stride'] = 1
 QA_CNN.append(C2)
@@ -65,7 +65,7 @@ chocolate_brown = (119, 110, 101)
 booooo_red   = (200, 25, 25)
 
 ##WZ
-num_episodes = 400
+num_episodes = 5000
 artificial_delay = 0
 reward_history = []
 
@@ -103,66 +103,68 @@ if __name__ == "__main__":
     # house that size of the grid. Here we assume 4
     grid_size = 4
 
-    # Initialize pygame
-    pygame.init()
+    # # Initialize pygame
+    # pygame.init()
 
-    # If we paint a rectangle cell of size 64 pixels
-    # Also include a header height to display score
-    header_height = 48 
-    tile_size     = 96
-    width, height = tile_size * grid_size, tile_size * grid_size + header_height
+    # # If we paint a rectangle cell of size 64 pixels
+    # # Also include a header height to display score
+    # header_height = 48 
+    # tile_size     = 96
+    # width, height = tile_size * grid_size, tile_size * grid_size + header_height
 
-    # Create a screen
-    screen        = pygame.display.set_mode((width, height))
-    screen_rect   = screen.get_rect()
+    # # Create a screen
+    # screen        = pygame.display.set_mode((width, height))
+    # screen_rect   = screen.get_rect()
     
-    # Create a font object
-    font  = pygame.font.Font(None, 24)
+    # # Create a font object
+    # font  = pygame.font.Font(None, 24)
 
+    QA_states = dict(shape=(4,4,1), type='float')
+    #QA_states = dict(shape=(16,), type='float')
+    QA_actions = dict(type='int', num_actions=4) 
+    QA_network = RFN.from_json('RF_CNN_config.json')
+
+    
+    #QA_dummy = [dict(type='dense', size=32), dict(type='dense', size=32)]
+    agent = tensorforce.agents.DQNAgent(states_spec = QA_states, 
+                                        actions_spec = QA_actions, 
+                                        network_spec = QA_CNN, 
+                                        device=None,
+                                        #session_config=None,
+                                        scope='dqn',
+                                        saver_spec=None, 
+                                        summary_spec=None,
+                                        distributed_spec=None,
+                                        optimizer=dict(
+                                            type='adam',
+                                            learning_rate=1e-3
+                                        ), 
+                                        discount=0.99, 
+                                        variable_noise=None,
+                                        #states_preprocessing_spec=None,
+                                        #explorations_spec=None,
+                                        #reward_preprocessing_spec=None, 
+                                        #distributions_spec=None, 
+                                        entropy_regularization=None,
+                                        target_sync_frequency=10000, 
+                                        target_update_weight=1.0,
+                                        double_q_model=False,
+                                        huber_loss=None, 
+                                        batched_observe=1,
+                                        batch_size=10,
+                                        memory=None,
+                                        first_update=100,
+                                        update_frequency=4,
+                                        repeat_update=1)
+    
     for e in range(num_episodes):
         # Create a game of that dimension
         game = tzfe.TwoZeroFourEight(grid_size)
         
         ##WZ
         ### RF INIT ###
-        QA_states = dict(shape=(4,4,1), type='float')
-        #QA_states = dict(shape=(16,), type='float')
-        QA_actions = dict(type='int', num_actions=4) 
-        QA_network = RFN.from_json('RF_CNN_config.json')
        
-        #QA_dummy = [dict(type='dense', size=32), dict(type='dense', size=32)]
-        agent = tensorforce.agents.DQNAgent(
-                states_spec = QA_states, 
-                actions_spec = QA_actions, 
-                network_spec = QA_CNN, 
-                device=None,
-                #session_config=None,
-                scope='dqn',
-                saver_spec=None, 
-                summary_spec=None,
-                distributed_spec=None,
-                optimizer=dict(
-                        type='adam',
-                        learning_rate=1e-3
-                        ), 
-                discount=0.99, 
-                variable_noise=None,
-                #states_preprocessing_spec=None,
-                #explorations_spec=None,
-                #reward_preprocessing_spec=None, 
-                #distributions_spec=None, 
-                entropy_regularization=None,
-                target_sync_frequency=10000, 
-                target_update_weight=1.0,
-                double_q_model=False,
-                huber_loss=None, 
-                batched_observe=1,
-                batch_size=10,
-                memory=None,
-                first_update=100,
-                update_frequency=4,
-                repeat_update=1
-                )
+        agent.reset()
         
         last_score = 0
         game_over = False
@@ -171,9 +173,9 @@ if __name__ == "__main__":
         while not(game_over):
            
             
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit(0)
+            # for event in pygame.event.get():
+            #     if event.type == pygame.QUIT:
+            #         sys.exit(0)
     
             # Generate a random move
             ##WZ
@@ -209,34 +211,36 @@ if __name__ == "__main__":
             last_score = score
             ##WZ
             
-            # Fill the screen
-            screen.fill(kinda_gray)
+            # # Fill the screen
+            # screen.fill(kinda_gray)
             
-            # Score string
-            score_string = "Score: {0:0>-06d}".format(game.get_score())
+            # # Score string
+            # score_string = "Score: {0:0>-06d}".format(game.get_score())
             
-            # Write out score
-            score_surface       = font.render(score_string, True, blacky_black)
-            score_rect          = score_surface.get_rect()
-            score_rect.topright = screen_rect.topright
-            screen.blit(score_surface, score_rect)
+            # # Write out score
+            # score_surface       = font.render(score_string, True, blacky_black)
+            # score_rect          = score_surface.get_rect()
+            # score_rect.topright = screen_rect.topright
+            # screen.blit(score_surface, score_rect)
             
-            # Now draw the game onto the screen
-            for i in range(grid_size):
-                for j in range(grid_size):
-                    tile_top   = i * tile_size + header_height
-                    tile_left  = j * tile_size
-                    tile_value = game.get_tile_value(i, j)
-                    tile_rect  = pygame.draw.rect(screen, blacky_black, (tile_left, tile_top, tile_size, tile_size), 1)
-                    screen.fill(kinda_orange[tile_value], tile_rect)
-                    if tile_value > 0:
-                        # draw a square tile                    
-                        tile_value_string              = "{0:^4d}".format(tile_value)
-                        tile_value_surface             = font.render(tile_value_string, True, chocolate_brown)
-                        tile_value_surface_rect        = tile_value_surface.get_rect()
-                        tile_value_surface_rect.center = tile_rect.center
-                        screen.blit(tile_value_surface, tile_value_surface_rect)
-    
+            # # Now draw the game onto the screen
+            # for i in range(grid_size):
+            #     for j in range(grid_size):
+            #         tile_top   = i * tile_size + header_height
+            #         tile_left  = j * tile_size
+            #         tile_value = game.get_tile_value(i, j)
+            #         tile_rect  = pygame.draw.rect(screen, blacky_black, (tile_left, tile_top, tile_size, tile_size), 1)
+            #         screen.fill(kinda_orange[tile_value], tile_rect)
+            #         if tile_value > 0:
+            #             # draw a square tile                    
+            #             tile_value_string              = "{0:^4d}".format(tile_value)
+            #             tile_value_surface             = font.render(tile_value_string, True, chocolate_brown)
+            #             tile_value_surface_rect        = tile_value_surface.get_rect()
+            #             tile_value_surface_rect.center = tile_rect.center
+            #             screen.blit(tile_value_surface, tile_value_surface_rect)
+
+            print("Current score: {}".format(score), end="\r")
+            
             # check game over and paint it to top left in RED
             if game_over:
                 #game_over_surface      = font.render("Game Over", True, booooo_red)
@@ -249,8 +253,8 @@ if __name__ == "__main__":
             # 200 ms delay
             time.sleep(artificial_delay)
             
-            # Update the display
-            pygame.display.update()
+            # # Update the display
+            # pygame.display.update()
             
 
 #evaluation:
@@ -263,5 +267,5 @@ plt.ylabel('Score')
 plt.grid(True)
 plt.title('RandomAgent')
 
-pygame.quit()
+# pygame.quit()
 sys.exit(0)
