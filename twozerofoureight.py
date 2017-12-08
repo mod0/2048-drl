@@ -14,7 +14,7 @@ class TwoZeroFourEight():
         # placed
         self.empty_cells = dict()
         # Starter tiles
-        self.starter_tiles = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+        self.starter_tiles = [2, 2, 2, 2, 2, 2, 2, 2, 2, 4]
         # Add all the empty tiles to the dictionary
         for i in range(n):
             for j in range(n):
