@@ -49,7 +49,7 @@ F['type'] = 'flatten'
 QA_CNN.append(F)
 D1 = dict()
 D1['type'] = 'dense'
-D1['size'] = 128
+D1['size'] = 512
 QA_CNN.append(D1)
 
 # Blinding_white
