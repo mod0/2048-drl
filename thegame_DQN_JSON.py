@@ -243,7 +243,7 @@ if __name__ == "__main__":
             #             tile_value_surface_rect.center = tile_rect.center
             #             screen.blit(tile_value_surface, tile_value_surface_rect)
 
-            print("Last action: {} Current score: {}".format(all_moves[rand_move], score), end="\r")
+            print("Last action: {} Current score: {} {}".format(all_moves[rand_move], score, " "*20), end="\r")
             
             # check game over and paint it to top left in RED
             if game_over:
@@ -251,7 +251,7 @@ if __name__ == "__main__":
                 #game_over_rect         = game_over_surface.get_rect()
                 #game_over_rect.topleft = screen_rect.topleft
                 #screen.blit(game_over_surface, game_over_rect)
-                print("Game Over! Episode: %d Final score: %d" % (e,score))
+                print("Game Over! Episode: {} Final score: {} {}" .format(e, score, " "*30))
                 reward_history.append(score)
     
             # 200 ms delay
