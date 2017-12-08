@@ -132,7 +132,11 @@ if __name__ == "__main__":
                                         device=None,
                                         #session_config=None,
                                         scope='dqn',
-                                        saver_spec=None, 
+                                        saver_spec=dict(
+                                            load = True,
+                                            directory = "checkpoints",
+                                            steps = 100
+                                            ), 
                                         summary_spec=None,
                                         distributed_spec=None,
                                         optimizer=dict(
