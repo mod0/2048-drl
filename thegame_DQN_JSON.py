@@ -243,7 +243,7 @@ if __name__ == "__main__":
             #             tile_value_surface_rect.center = tile_rect.center
             #             screen.blit(tile_value_surface, tile_value_surface_rect)
 
-            print("Current score: {}".format(score), end="\r")
+            print("Last action: {} Current score: {}".format(all_moves[rand_move], score), end="\r")
             
             # check game over and paint it to top left in RED
             if game_over:
