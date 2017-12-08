@@ -224,7 +224,7 @@ if __name__ == "__main__":
             #             tile_value_surface_rect.center = tile_rect.center
             #             screen.blit(tile_value_surface, tile_value_surface_rect)
 
-            # print("Last action: {} Current score: {} {}".format(all_moves[rand_move], score, " "*20), end="\r")
+            print("Episode: {} Last action: {} Current score: {} {}".format(e, all_moves[rand_move], score, " "*20), end="\r")
             
             # check game over and paint it to top left in RED
             if game_over:
@@ -234,7 +234,7 @@ if __name__ == "__main__":
                 #screen.blit(game_over_surface, game_over_rect)
                 reward_history.append(score)
                 if (e % 100 == 0) and (e>99):
-                    print('Episode: %d | Mean last 100 games: %d' %(e,np.mean(reward_history[-100:])))
+                    print('Episode: {} | Mean last 100 games: {} {}'.format(e, np.mean(reward_history[-100:]), " "*50))
                 
     
             # 200 ms delay
