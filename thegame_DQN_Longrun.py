@@ -34,16 +34,22 @@ kinda_orange[2048] = (237, 194,  46)
 QA_CNN = []
 C1 = dict()
 C1['type'] = 'conv2d'
-C1['size'] = 32
+C1['size'] = 256
 C1['window'] = 2
 C1['stride'] = 1
 QA_CNN.append(C1)
 C2 = dict()
 C2['type'] = 'conv2d'
-C2['size'] = 64
+C2['size'] = 256
 C2['window'] = 2
 C2['stride'] = 1
 QA_CNN.append(C2)
+C3 = dict()
+C3['type'] = 'conv2d'
+C3['size'] = 512
+C3['window'] = 2
+C1['stride'] = 1
+QA_CNN.append(C3)
 F = dict()
 F['type'] = 'flatten'
 QA_CNN.append(F)
@@ -112,7 +118,7 @@ if __name__ == "__main__":
                                         distributed_spec=None,
                                         optimizer=dict(
                                             type='adam',
-                                            learning_rate=1e-3
+                                            learning_rate=1e-2
                                         ), 
                                         discount=0.99, 
                                         variable_noise=None,
